@@ -6,14 +6,65 @@
   <meta name="keywords" content="python web application" />
   <meta name="description" content="pyramid web application" />
   <link rel="shortcut icon" href="${request.static_url('tracktime:static/favicon.ico')}" />
-  <link rel="stylesheet" href="${request.static_url('tracktime:static/pylons.css')}" type="text/css" media="screen" charset="utf-8" />
-  <link rel="stylesheet" href="http://static.pylonsproject.org/fonts/nobile/stylesheet.css" media="screen" />
-  <link rel="stylesheet" href="http://static.pylonsproject.org/fonts/neuton/stylesheet.css" media="screen" />
+
+  <link rel="stylesheet" href="${request.static_url('tracktime:static/bootstrap/css/docs.css')}" type="text/css" />
+  <link rel="stylesheet" href="${request.static_url('tracktime:static/bootstrap/css/bootstrap.css')}" type="text/css" />
+  <link rel="stylesheet" href="${request.static_url('tracktime:static/bootstrap/css/bootstrap-responsive.css')}" type="text/css" />
+  <link rel="stylesheet" href="${request.static_url('tracktime:static/css/style.css')}" type="text/css" />
+  <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
+  <script type="text/javascript" src="${request.static_url('tracktime:static/js/tracktime.js')}"></script>
   <!--[if lte IE 6]>
   <link rel="stylesheet" href="${request.static_url('tracktime:static/ie6.css')}" type="text/css" media="screen" charset="utf-8" />
   <![endif]-->
 </head>
 <body>
-    here is my first test
+  <div class="container">
+    <div class="row">
+      <div class="span7">
+        <h1>TrackTime project</h1>
+        <hr/>
+      </div>
+    </div>
+    <div class="row">
+      <div class="span7">
+        <div class="hide" id="start_btn">
+          <a href="#" class="btn btn-small btn-success" >start timer</a>
+        </div>
+        <div class="timer ">
+            <span class="hour">00</span>:<span class="minute">00</span>:<span class="second">00</span>
+        </div>
+        <div class="hide" id="stop_btn">
+          <a href="#" class="btn btn-small btn-success" id="stop_btn">stop timer</a>
+        </div>
+        <div class="hide" id="track_msg">
+          <textarea id="msg_text" rows="2"></textarea>
+          <input type="button" value="Save" id="msg_btn_save">
+        </div>
+      </div>
+    </div>
+    <div class="bs-docs-separator">
+      <div class="span7">
+        <table class="table-bordered">
+          <tr>
+            <th>Today entries
+            </th>
+            <th>Yesterday entries
+            </th>
+             <th>This week entries
+            </th>
+          </tr>
+          <tr>
+            <td>1
+            </td>
+            <td>2
+            </td>
+            <td>3
+            </td>
+          </tr>
+        </table>
+      </div>
+    </div>
+  </div>
+
 </body>
 </html>
