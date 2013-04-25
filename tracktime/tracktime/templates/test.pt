@@ -44,16 +44,16 @@
     </div>
     <div class="bs-docs-separator">
       <div class="span7">
-        <table class="table-bordered">
+        <table class="table-bordered" id="t_entries">
           <tr>
-            <th>Today entries
+            <th><a href="#" id="today_entries">Today entries</a>
             </th>
-            <th>Yesterday entries
+            <th><a href="#" id="yesterday_entries">Yesterday entries</a>
             </th>
-             <th>This week entries
+             <th><a href="#" id="week_entries">This week entries</a>
             </th>
           </tr>
-          <tr>
+          <tr class="entry">
             <td>1
             </td>
             <td>2

@@ -21,5 +21,6 @@ def main(global_config, **settings):
     config.add_route('counter_start', '/counter/start/')
     config.add_route('counter_stop', '/counter/stop/{pk}/')
     config.add_route('counter_msg', '/counter/msg/{pk}/')
+    config.add_route('entry_list', '/entry/{period}/')
     config.scan()
     return config.make_wsgi_app()

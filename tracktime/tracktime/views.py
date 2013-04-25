@@ -1,5 +1,5 @@
 import transaction
-from datetime import datetime
+from datetime import datetime, date, timedelta
 
 from pyramid.response import Response
 from pyramid.view import view_config
@@ -12,6 +12,8 @@ from .models import (
     TrackTimeEntry,
     )
 from .utils import time_diff_in_second
+
+DATETIME_FORMAT = "%Y-%m-%d %H:%M"
 
 @view_config(route_name='home', renderer='templates/mytemplate.pt')
 def my_view(request):
@@ -110,5 +112,37 @@ def counter_msg(request):
             DBSession.add(entry)
             transaction.commit()
             response['status'] = 1
+    return response
+
+
+@view_config(route_name='entry_list', renderer='json')
+def entry_list(request):
+
+    response = {
+        'entries': []
+    }
+    entries = []
+    period = request.matchdict['period']
+    #import pdb; pdb.set_trace()
+    today = date.today()
+    if period == 'today':
+        entries = DBSession.query(TrackTimeEntry).filter(
+            TrackTimeEntry.start_time >= today).all()
+    if period == 'yesterday':
+        yesterday = today - timedelta(days=1)
+        entries = DBSession.query(TrackTimeEntry).filter(
+            TrackTimeEntry.start_time >= yesterday,
+            TrackTimeEntry.start_time < today).all()
+    if period == 'week':
+        week = today - timedelta(days=7)
+        entries = DBSession.query(TrackTimeEntry).filter(
+            TrackTimeEntry.start_time >= week).all()
+    for obj in entries:
+        response['entries'].append({
+            'id': obj.id,
+            'start_time': obj.start_time.strftime(DATETIME_FORMAT),
+            'stop_time': obj.stop_time.strftime(DATETIME_FORMAT),
+            'msg': obj.msg,
+        })
     return response
 

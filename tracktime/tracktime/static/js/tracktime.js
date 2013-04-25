@@ -134,9 +134,26 @@ $(document).ready(function(){
         })
     }
 
+    function get_entries(period){
+        $.ajax({
+            url: '/entry/' + period + '/',
+            dataType: 'json',
+            success: function(data, textStatus, jqXHR){
+                $('.entry').remove();
+                $.each(data['entries'], function(i, v){
+                    var row = '<tr class="entry"><td>'+v['msg']+'</td><td>'+v['start_time']+'</td><td>edit</td></tr>';
+                    $('#t_entries').append(row);
+                });
+                return false;
+            },
+            error: function(){
+                    alert('Error, Retry please');
+            },
+        })        
+    };
 
     initialize_timer();
-
+    
     $("#start_btn").click(function(){
         timer.reset(0);
         timer.start()
@@ -156,6 +173,20 @@ $(document).ready(function(){
         return false;
     })
 
+    $('#today_entries').click(function(){
+        get_entries('today');
+        return false;
+    })
+    $('#yesterday_entries').click(function(){
+        get_entries('yesterday');
+        return false;
+    })
+    $('#week_entries').click(function(){
+        get_entries('week');
+        return false;
+    })
 
+
+    get_entries('yesterday');
 
 });
