@@ -49,20 +49,16 @@ function _timer(){
 
 $(document).ready(function(){
     timer = new _timer();
-    
     function initialize_timer(){
         $.ajax({
             url: '/counter/status/',
             dataType: 'json',
             success: function(data, textStatus, jqXHR){
-                console.log(data);
                 if(data['status'] === 'new'){
-                    console.log('new');
                     timer.reset(0);
                     $('#start_btn').fadeIn('slow');
                 }
                 else if(data['status'] === 'continue'){
-                    console.log('continue');
                     id = data['id'];
                     timer.reset(data['sec']);
                     timer.start()
@@ -78,7 +74,6 @@ $(document).ready(function(){
             dataType: 'json',
             success: function(data, textStatus, jqXHR){
                 if(data['status'] === 1){
-                    console.log(data['id']);
                     id = data['id']
                 }
                 else if(data['status'] === 0){
@@ -106,7 +101,8 @@ $(document).ready(function(){
             error: function(){
                     alert('Error, Retry please');
             },
-        })
+        });
+        get_entries('today');
     }
 
     function msg_save(){
@@ -131,7 +127,8 @@ $(document).ready(function(){
             error: function(){
                     alert('Error, Retry please');
             },
-        })
+        });
+        get_entries('today');
     }
 
     function get_entries(period){
@@ -141,7 +138,7 @@ $(document).ready(function(){
             success: function(data, textStatus, jqXHR){
                 $('.entry').remove();
                 $.each(data['entries'], function(i, v){
-                    var row = '<tr class="entry"><td>'+v['msg']+'</td><td>'+v['start_time']+'</td><td>edit</td></tr>';
+                    var row = '<tr class="entry"><td  class="span3">'+v['msg']+'</td><td  class="span2">'+v['time']+'</td><td class="span2"><a href="#" id="del_'+v['id']+'">del</a></td></tr>';
                     $('#t_entries').append(row);
                 });
                 return false;
@@ -149,11 +146,26 @@ $(document).ready(function(){
             error: function(){
                     alert('Error, Retry please');
             },
-        })        
+        })
     };
 
+    function remove_entry(el){
+        var id = $(el).attr('id').split('_')[1]
+        $.ajax({
+            url: '/entry/remove/' + id + '/',
+            dataType: 'json',
+            success: function(data, textStatus, jqXHR){
+                tr = el.parents('tr');
+                tr.remove();
+            },
+            error: function(){
+                alert("Error");
+            },
+        });
+
+    };
     initialize_timer();
-    
+
     $("#start_btn").click(function(){
         timer.reset(0);
         timer.start()
@@ -175,18 +187,31 @@ $(document).ready(function(){
 
     $('#today_entries').click(function(){
         get_entries('today');
+        $('#yesterday_entries').removeClass('active');
+        $('#week_entries').removeClass('active');
+        $('#today_entries').addClass('active');
         return false;
     })
     $('#yesterday_entries').click(function(){
         get_entries('yesterday');
+        $('#today_entries').removeClass('active');
+        $('#week_entries').removeClass('active');
+        $('#yesterday_entries').addClass('active');
+
         return false;
     })
     $('#week_entries').click(function(){
         get_entries('week');
+        $('#today_entries').removeClass('active');
+        $('#yesterday_entries').removeClass('active');
+        $('#week_entries').addClass('active');
+
         return false;
     })
 
-
-    get_entries('yesterday');
+    $('a[id^="del_"]').live('click', function(){
+        var id = $(this);
+        remove_entry(id);
+    });
 
 });

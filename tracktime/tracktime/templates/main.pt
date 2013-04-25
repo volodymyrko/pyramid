@@ -37,32 +37,42 @@
           <a href="#" class="btn btn-small btn-success" id="stop_btn">stop timer</a>
         </div>
         <div class="hide" id="track_msg">
-          <textarea id="msg_text" rows="2"></textarea>
+          <input type="text"  id="msg_text" size="100">
           <input type="button" value="Save" id="msg_btn_save">
         </div>
       </div>
     </div>
     <div class="bs-docs-separator">
-      <div class="span7">
+      <div class="span8">
+        <ul class="nav nav-tabs">
+            <li id="today_entries" class="active"> <a href="#"  >Today entries</a>
+            </li>
+            <li id="yesterday_entries"><a href="#" >Yesterday entries</a>
+            </li>
+             <li id="week_entries"><a href="#" >This week entries</a>
+            </li>
+          </ul>
+      </div>
+      <div class="span8">
         <table class="table-bordered" id="t_entries">
           <tr>
-            <th><a href="#" id="today_entries">Today entries</a>
+            <th class="span3">Message
             </th>
-            <th><a href="#" id="yesterday_entries">Yesterday entries</a>
+            <th  class="span2">Time, sec
             </th>
-             <th><a href="#" id="week_entries">This week entries</a>
+            <th class="span2">Actions
             </th>
           </tr>
-          <tr class="entry">
-            <td>1
+          <tr class="entry" tal:repeat="e entries">
+            <td class="span3">${e['msg']}
             </td>
-            <td>2
+            <td  class="span2">${e['time']}
             </td>
-            <td>3
+            <td  class="span2"><a href="#" id="del_${e.id}">del</a>
             </td>
           </tr>
         </table>
-      </div>
+      <div>
     </div>
   </div>
 
