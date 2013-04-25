@@ -212,6 +212,7 @@ $(document).ready(function(){
     $('a[id^="del_"]').live('click', function(){
         var id = $(this);
         remove_entry(id);
+        return false;
     });
 
 });
